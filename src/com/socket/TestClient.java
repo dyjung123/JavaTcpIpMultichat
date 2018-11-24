@@ -1,3 +1,4 @@
+//컴파일 : javac com\socket\TestClient.java -encoding UTF-8
 package com.socket;
 
 import java.net.*;
