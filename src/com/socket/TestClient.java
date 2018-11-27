@@ -15,9 +15,9 @@ public class TestClient {
         try {
             String serverIp = "192.168.0.8";
             // 소켓을 생성하여 연결을 요청한다.
-            Socket socket = new Socket(serverIp, 8080);
+            Socket socket = new Socket(serverIp, 8080); // socket은 server socket
             System.out.println("서버에 연결되었습니다.");
-            Thread sender = new Thread(new ClientSender(socket, args[0]));
+            Thread sender = new Thread(new ClientSender(socket, args[0])); // 유저 이름을 서버로 전달.
             Thread receiver = new Thread(new ClientReceiver(socket));
 
             sender.start();
@@ -33,7 +33,7 @@ public class TestClient {
         String name;
 
         ClientSender(Socket socket, String name) {
-            this.socket = socket;
+            this.socket = socket; // server socket
             try {
                 out = new DataOutputStream(socket.getOutputStream());
                 this.name = name;
@@ -41,9 +41,9 @@ public class TestClient {
         }
 
         public void run() {
-            Scanner scanner = new Scanner(System.in);
+            Scanner scanner = new Scanner(System.in); // 입력 받기 위한 Scanner <- Swing JTextField에서 입력받게 수정
             try {
-                if(out!=null) {
+                if(out!=null) {       // 맨 처음에 플레이어 이름 전송
                     out.writeUTF(name);
                 }
 

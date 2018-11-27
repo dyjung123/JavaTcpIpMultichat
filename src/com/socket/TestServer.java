@@ -7,9 +7,11 @@ import java.util.*;
 
 public class TestServer {
     HashMap clients;
+    private GameData gameData; // 게임 정보 (점수, 날짜, 입력 단어)
 
     TestServer() {
         clients = new HashMap();
+        this.gameData = new GameData();
         /*
         * 왜 동기화를 하는가?
         * 동기화를 지원하는 Collection의 경우 순회하다가 새로운 값이 추가되는 경우 이슈가 발생하지 않는다.
@@ -27,13 +29,13 @@ public class TestServer {
         Socket socket = null;
 
         try {
-            serverSocket = new ServerSocket(8080);
+            serverSocket = new ServerSocket(8080);  // 서버 소켓 포트 할당, 서버 오픈
             System.out.println("서버시작");
 
-            while (true) {
-                socket = serverSocket.accept();
+            while (true) {  // 클라이언트와 연결후, 클라이언트에 대한 데이터 입출력 쓰레드 생성, 시작
+                socket = serverSocket.accept();  // 연결 기다림.
                 System.out.println("[" + socket.getInetAddress() + ":" + socket.getPort() + "]" + "에서 접속하였습니다.");
-                ServerReceiver thread = new ServerReceiver(socket);
+                ServerReceiver thread = new ServerReceiver(socket);  // 클라이언트로부터 입력을 받고 전송하는 쓰레드 작동.
                 thread.start();
             }
         } catch (Exception e) {
@@ -54,7 +56,7 @@ public class TestServer {
 
     public static void main(String[] args) {
         new TestServer().start();
-    }
+    } // 서버 객체 생성후 시작.
 
     class ServerReceiver extends Thread {
         Socket socket;
@@ -62,7 +64,7 @@ public class TestServer {
         DataOutputStream out;
 
         ServerReceiver(Socket socket) {
-            this.socket = socket;
+            this.socket = socket; // client socket
             try {
                 in = new DataInputStream(socket.getInputStream());
                 out = new DataOutputStream(socket.getOutputStream());
@@ -92,4 +94,23 @@ public class TestServer {
             } // try
         } // run
     } // ReceiverThread
+
+    class SendSomething implements Runnable {
+        Socket socket;
+        DataInputStream in;
+        DataOutputStream out;
+
+        public SendSomething(Socket socket) {
+            this.socket = socket;
+            try {
+                in = new DataInputStream(socket.getInputStream());
+                out = new DataOutputStream(socket.getOutputStream());
+            } catch (IOException e) {}
+        }
+
+        @Override
+        public void run() {
+
+        }
+    }
 } // class

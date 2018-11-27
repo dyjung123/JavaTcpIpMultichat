@@ -61,20 +61,20 @@ public class Starter {
     public static void main(String[] args) {
         ServerSocket serverSocket = null;
 
-        try {
-            serverSocket = new ServerSocket(8080);
-            System.out.println(getTime() + "서버가 준비되었습니다.");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        try {
+//            serverSocket = new ServerSocket(8080);
+//            System.out.println(getTime() + "서버가 준비되었습니다.");
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
 
-        try {
-            Socket socket = serverSocket.accept();
-            OutputStream out = socket.getOutputStream();
-            DataOutputStream dos = new DataOutputStream(out);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            Socket socket = serverSocket.accept();
+//            OutputStream out = socket.getOutputStream();
+//            DataOutputStream dos = new DataOutputStream(out);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
 
         new EventFireGui();
     }
